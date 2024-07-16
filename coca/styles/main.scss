@@ -1,0 +1,77 @@
+@import "_root";
+
+// ------------------------------- $ Mixins % ------------------------------- //
+@mixin container ($display, $width, $height) {
+  display: $display; 
+  max-width: $width;
+  max-height: $height;
+}
+@mixin button ($color, $b-color) {
+  background-color: $b-color;
+  color: $color;
+  padding: 25px 40px;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  -ms-border-radius: 100px;
+  -o-border-radius: 100px;
+}
+
+@mixin text ($color, $weight, $font-size) {
+  color: $color;
+  font-weight: $weight;
+  font-size: $font-size;
+}
+
+// ------------------------------- Header ------------------------------- //
+
+// --------------- Header__Switch --------------- //
+
+input[type="checkbox"] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 63px;
+  height: 27px;
+  background: var(--switch-l-ina);
+  display: block;
+  border-radius: 100px;
+  position: relative;
+  transition: 0.3s;
+  border-radius: 13.5px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  -ms-border-radius: 100px;
+  -o-border-radius: 100px;
+}
+
+label:after {
+  content: "";
+  position: absolute;
+  top: 2.5px;
+  left: 5px;
+  width: 23px;
+  height: 23px;
+  background: var(--switch-c-ina);
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+input:checked + label {
+  background: var(--switch-l-a);
+}
+
+input:checked + label:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+  background: var(--switch-c-a);
+}
+
+label:active:after {
+  width: 30px;
+}
