@@ -1,29 +1,111 @@
 @import "_root";
 
+// Breakpoints
+
+$lg: 1200px;
+
 // ------------------------------- $ Mixins % ------------------------------- //
-@mixin container ($display, $width, $height) {
-  display: $display; 
+
+@mixin container($display, $width, $height) {
+  display: $display;
   max-width: $width;
-  max-height: $height;
+  height: $height;
 }
-@mixin button ($color, $b-color) {
+@mixin button($color, $b-color) {
   background-color: $b-color;
   color: $color;
-  padding: 25px 40px;
+  padding: 20px 5px;
+  min-width: clamp(7.5rem, 6.25rem + 6.25vw, 10.938rem);
+  justify-content: center;
   border-radius: 100px;
+  text-align: center;
+  display: flex;
   -webkit-border-radius: 100px;
   -moz-border-radius: 100px;
   -ms-border-radius: 100px;
   -o-border-radius: 100px;
 }
 
-@mixin text ($color, $weight, $font-size) {
+@mixin text($color, $weight, $font-size) {
   color: $color;
   font-weight: $weight;
   font-size: $font-size;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+}
+
+@mixin transition {
+  transition: 0.3s ease-out;
+  -webkit-transition: 0.3s ease-out;
+  -moz-transition: 0.3s ease-out;
+  -ms-transition: 0.3s ease-out;
+  -o-transition: 0.3s ease-out;
 }
 
 // ------------------------------- Header ------------------------------- //
+
+* {
+  @include transition;
+}
+
+.body {
+  background-color: var(--background);
+  overflow-x: hidden;
+}
+.body-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 15px;
+  height: 100%;
+}
+.header,
+.header__inner,
+.header__icon {
+  @include container(flex, 100%, 120px);
+  align-items: center;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.header__icon {
+  gap: 15px;
+  &-coca path {
+    fill: var(--main-text);
+  }
+  &-icon circle {
+    fill: var(--icon-circle);
+  }
+}
+.header-inner {
+  &__nav {
+    gap: 50px;
+    @include text(var(--main-text), 600, 20px);
+    @include container(flex, 500px, 120px);
+    align-items: center;
+    &-button {
+      &:hover {
+        font-size: 22px;
+      }
+    }
+  }
+  &__switch {
+    @include text(var(--main-text), 700, 20px);
+    @include container(flex, 100%, 120px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 10px;
+    p {
+      margin-bottom: 10px;
+    }
+  }
+}
+.header__inner {
+  width: 100%;
+  max-width: 650px;
+  justify-content: space-between;
+}
 
 // --------------- Header__Switch --------------- //
 
@@ -44,17 +126,17 @@ label {
   position: relative;
   transition: 0.3s;
   border-radius: 13.5px;
-  -webkit-border-radius: 100px;
-  -moz-border-radius: 100px;
-  -ms-border-radius: 100px;
-  -o-border-radius: 100px;
+  -webkit-border-radius: 13.5px;
+  -moz-border-radius: 13.5px;
+  -ms-border-radius: 13.5px;
+  -o-border-radius: 13.5px;
 }
 
 label:after {
   content: "";
   position: absolute;
-  top: 2.5px;
-  left: 5px;
+  top: 2px;
+  left: 3px;
   width: 23px;
   height: 23px;
   background: var(--switch-c-ina);
@@ -67,7 +149,7 @@ input:checked + label {
 }
 
 input:checked + label:after {
-  left: calc(100% - 5px);
+  left: calc(100% - 3px);
   transform: translateX(-100%);
   background: var(--switch-c-a);
 }
@@ -75,3 +157,164 @@ input:checked + label:after {
 label:active:after {
   width: 30px;
 }
+
+// ------------------------------- Digitally section ------------------------------- //
+
+.digitally {
+  @include container(flex, 100%, 785px);
+  margin-bottom: 50px;
+  justify-content: space-between;
+  &__background {
+    position: absolute;
+    overflow: hidden;
+    &-1 {
+      position: absolute;
+      max-height: 1000px;
+      width: 100%;
+      max-width: 1000px;
+      height: 100%;
+      z-index: -1000;
+    }
+    &-2 {
+      width: 525px;
+      height: 525px;
+      top: 185px;
+      position: absolute;
+      right: 0px;
+      z-index: -1000;
+      transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+      -moz-transform: scaleX(-1);
+      -ms-transform: scaleX(-1);
+      -o-transform: scaleX(-1);
+    }
+  }
+  &__text-block {
+    @include container(flex, 850px, 100%);
+    width: 55%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    &-header {
+      @include text(
+        var(--main-text),
+        700,
+        clamp(4.125rem, 3.352rem + 3.86vw, 6.25rem)
+      );
+    }
+    &-undheader {
+      max-width: 80%;
+      display: flex;
+      gap: 30px;
+      span {
+        min-width: clamp(2.5rem, 2rem + 2.5vw, 5rem);
+        height: 1px;
+        background: var(--main-text);
+        display: flex;
+        margin-top: 15px;
+      }
+      p {
+        @include text(var(--main-text), 600, clamp(1rem, 0.8rem + 1vw, 2rem));
+      }
+    }
+    &-email {
+      gap: 20px;
+      @include container(flex, 100%, 60px);
+      input {
+        background: transparent;
+        color: var(--default-gray);
+        border-bottom: 1px solid var(--light-gray);
+        max-width: 280px;
+        width: 100%;
+        padding-bottom: 5px;
+        &::placeholder {
+          color: var(--default-gray);
+        }
+      }
+      &-button {
+        @include text(-color, 700, -size);
+        @include button(var(--background), var(--main-text));
+        &:hover {
+          background-color: gray;
+          font-size: 17px;
+          box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.307);
+        }
+      }
+    }
+  }
+  &__state {
+    max-width: clamp(27.75rem, 22.705rem + 25.23vw, 41.625rem);
+    width: 100%;
+    right: 0;
+    top: 200px;
+    position: absolute;
+    @media (max-width: $lg) {
+      top: 0px;
+      position: relative;
+    }
+  }
+  //breakpoint
+  @media (max-width: $lg) {
+    @include container(flex, 100%, 100%);
+    margin-top: 50px;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    &__text-block-email {
+      justify-content: center;
+    }
+    &__text-block, &__text-block-undheader {
+      max-width: 90%;
+      width: 100%;
+    }
+    &__text-block {
+      gap: 30px;
+    }
+    &__state {
+      margin-top: 15px;
+    }
+  }
+}
+
+// ------------------------------- Help section ------------------------------- //
+
+.help {
+  background-color: var(--main-black);
+  padding: 100px 0;
+  &__inner {
+    &-h1 {
+      @include text(
+        var(--main-white),
+        600,
+        clamp(1.875rem, 1.284rem + 2.95vw, 3.5rem)
+      );
+      max-width: 820px;.header {
+
+		&__burger {
+		}
+
+		&__burger-span {
+		}
+
+		&__burger-menu {
+		}
+}
+
+      line-height: clamp(1.875rem, 1.03rem + 4.23vw, 4.2rem);
+    }
+    &-h3 {
+      @include text(
+        var(--default-gray),
+        500,
+        clamp(0.625rem, 0.489rem + 0.68vw, 1rem)
+      );
+    }
+    &-block {
+      &-build {
+      }
+      &-measure {
+      }
+    }
+  }
+}
+
+// ------------------------------- Breakpoints ------------------------------- //
