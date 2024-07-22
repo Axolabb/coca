@@ -3,6 +3,7 @@
 // Breakpoints
 
 $lg: 1200px;
+$md: 750px;
 
 // ------------------------------- $ Mixins % ------------------------------- //
 
@@ -10,6 +11,7 @@ $lg: 1200px;
   display: $display;
   max-width: $width;
   height: $height;
+  width: 100%;
 }
 @mixin button($color, $b-color) {
   background-color: $b-color;
@@ -41,8 +43,15 @@ $lg: 1200px;
   -ms-transition: 0.3s ease-out;
   -o-transition: 0.3s ease-out;
 }
+@mixin transform($transform) {
+  transform: $transform;
+  -webkit-transform: $transform;
+  -moz-transform: $transform;
+  -ms-transform: $transform;
+  -o-transform: $transform;
+}
 
-// ------------------------------- Header ------------------------------- //
+// ------------------------------- Body Settings ------------------------------- //
 
 * {
   @include transition;
@@ -58,6 +67,9 @@ $lg: 1200px;
   padding: 0 15px;
   height: 100%;
 }
+
+// ------------------------------- Header ------------------------------- //
+
 .header,
 .header__inner,
 .header__icon {
@@ -67,9 +79,11 @@ $lg: 1200px;
 .header {
   display: flex;
   justify-content: space-between;
+  gap: 100px;
 }
 .header__icon {
   gap: 15px;
+  max-width: 20%;
   &-coca path {
     fill: var(--main-text);
   }
@@ -79,7 +93,7 @@ $lg: 1200px;
 }
 .header-inner {
   &__nav {
-    gap: 50px;
+    gap: clamp(1.563rem, 0.994rem + 2.84vw, 3.125rem);
     @include text(var(--main-text), 600, 20px);
     @include container(flex, 500px, 120px);
     align-items: center;
@@ -92,6 +106,7 @@ $lg: 1200px;
   &__switch {
     @include text(var(--main-text), 700, 20px);
     @include container(flex, 100%, 120px);
+    max-width: 100px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -99,12 +114,80 @@ $lg: 1200px;
     p {
       margin-bottom: 10px;
     }
+    @media (max-width: $md) {
+      order: -1;
+    }
   }
 }
 .header__inner {
   width: 100%;
-  max-width: 650px;
+  max-width: 600px;
   justify-content: space-between;
+  // breakpoint
+  @media (max-width: $lg) {
+    width: 100%;
+  }
+  @media (max-width: $md) {
+    top: -60vh;
+    z-index: 9;
+    position: fixed;
+    flex-direction: column;
+    width: 100vw;
+    right: 0.3vw;
+    height: 60vh;
+    justify-content: end;
+    background: var(--background);
+    opacity: 0.9;
+    justify-content: center;
+    padding-bottom: 100px;
+    .header-inner__nav {
+      flex-direction: column;
+      gap: 30px;
+    }
+  }
+}
+.header__inner--active {
+  visibility: visible;
+  opacity: 0.9;
+  top: 0;
+}
+.header {
+  &__burger {
+    z-index: 10;
+    @include container(flex, 50px, 50px);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    &-span {
+      background-color: var(--main-text);
+      display: flex;
+      flex-shrink: 0;
+      width: 40px;
+      height: 4px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+    }
+    @media (max-width: $md) {
+      display: flex;
+    }
+  }
+}
+
+.burger--active {
+  .header__burger-span:first-child {
+    @include transform(translateY(10px) rotate(-45deg));
+  }
+  .header__burger-span:nth-child(2) {
+    opacity: 0;
+    @include transform(rotate(-45deg));
+  }
+  .header__burger-span:last-child {
+    @include transform(translateY(-8px) rotate(45deg));
+  }
 }
 
 // --------------- Header__Switch --------------- //
@@ -150,8 +233,8 @@ input:checked + label {
 
 input:checked + label:after {
   left: calc(100% - 3px);
-  transform: translateX(-100%);
   background: var(--switch-c-a);
+  @include transform(translateX(-100%));
 }
 
 label:active:after {
@@ -182,11 +265,7 @@ label:active:after {
       position: absolute;
       right: 0px;
       z-index: -1000;
-      transform: scaleX(-1);
-      -webkit-transform: scaleX(-1);
-      -moz-transform: scaleX(-1);
-      -ms-transform: scaleX(-1);
-      -o-transform: scaleX(-1);
+      @include transform(scaleX(-1));
     }
   }
   &__text-block {
@@ -198,7 +277,7 @@ label:active:after {
       @include text(
         var(--main-text),
         700,
-        clamp(4.125rem, 3.352rem + 3.86vw, 6.25rem)
+        clamp(3.438rem, 2.869rem + 2.84vw, 5rem)
       );
     }
     &-undheader {
@@ -219,6 +298,8 @@ label:active:after {
     &-email {
       gap: 20px;
       @include container(flex, 100%, 60px);
+      flex-wrap: wrap;
+      z-index: 5;
       input {
         background: transparent;
         color: var(--default-gray);
@@ -262,7 +343,8 @@ label:active:after {
     &__text-block-email {
       justify-content: center;
     }
-    &__text-block, &__text-block-undheader {
+    &__text-block,
+    &__text-block-undheader {
       max-width: 90%;
       width: 100%;
     }
@@ -273,13 +355,24 @@ label:active:after {
       margin-top: 15px;
     }
   }
+  @media (max-width: $md) {
+    &__text-block {
+      align-items: center;
+    }
+    &__text-block-undheader span {
+      display: none;
+    }
+    &__text-block-email {
+      margin-bottom: 30px;
+    }
+  }
 }
 
 // ------------------------------- Help section ------------------------------- //
 
 .help {
   background-color: var(--main-black);
-  padding: 100px 0;
+  padding: clamp(3.125rem, 1.989rem + 5.68vw, 6.25rem) 0;
   &__inner {
     &-h1 {
       @include text(
@@ -287,19 +380,9 @@ label:active:after {
         600,
         clamp(1.875rem, 1.284rem + 2.95vw, 3.5rem)
       );
-      max-width: 820px;.header {
-
-		&__burger {
-		}
-
-		&__burger-span {
-		}
-
-		&__burger-menu {
-		}
-}
-
+      max-width: 820px;
       line-height: clamp(1.875rem, 1.03rem + 4.23vw, 4.2rem);
+      margin-bottom: 30px;
     }
     &-h3 {
       @include text(
@@ -307,14 +390,61 @@ label:active:after {
         500,
         clamp(0.625rem, 0.489rem + 0.68vw, 1rem)
       );
+      max-width: 600px;
+      line-height: clamp(0.938rem, 0.665rem + 1.36vw, 1.688rem);
+      margin-bottom: clamp(3.125rem, 1.989rem + 5.68vw, 6.25rem);
     }
-    &-block {
-      &-build {
+    &-container {
+      @include container(flex, 100%, 100%);
+      justify-content: space-between;
+      gap: 50px;
+      @media (max-width: $md) {
+        flex-direction: column;
       }
-      &-measure {
+      &-flex {
+        @include container(flex, 100%, 100%);
+        flex-direction: column;
+        gap: 50px;
+      }
+      &__block {
+        @include container(flex, 460px, 100%);
+        flex-direction: column;
+        gap: clamp(0.625rem, 0.261rem + 1.82vw, 1.625rem);
+        @media (max-width: $md) {
+          text-align: center;
+          max-width: 100%;
+          align-items: center;
+        }
+        &-h2 {
+          @include text(
+            var(--main-white),
+            600,
+            clamp(1.313rem, 1.063rem + 1.25vw, 2rem)
+          );
+          max-width: 280px;
+          line-height: clamp(1.875rem, 1.602rem + 1.36vw, 2.625rem);
+          @media (max-width: $md) {
+            max-width: 100%;
+          }
+        }
+        &-h4 {
+          @include text(
+            var(--default-gray),
+            500,
+            clamp(0.625rem, 0.489rem + 0.68vw, 1rem)
+          );
+          line-height: clamp(1rem, 0.773rem + 1.14vw, 1.625rem);
+          @media (max-width: $md) {
+            max-width: 400px;
+          }
+        }
       }
     }
   }
+  @media (max-width: $md) {
+    text-align: center;
+  }
 }
 
-// ------------------------------- Breakpoints ------------------------------- //
+// ------------------------------- Passion section ------------------------------- //
+

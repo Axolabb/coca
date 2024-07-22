@@ -1,4 +1,7 @@
 const switcher = document.getElementById("switch");
+const burger = document.querySelector(".header__burger");
+const inner = document.querySelector(".header__inner");
+let burger_active = false;
 let switch_active = true;
 
 switcher.addEventListener("click", () => {
@@ -16,3 +19,17 @@ switcher.addEventListener("click", () => {
     switch_active = true;
   }
 });
+
+burger.addEventListener('click', () => {
+  if(burger_active) {
+    inner.classList.remove('header__inner--active')
+    burger.classList.remove('burger--active')
+    document.body.style.overflowY = 'auto'
+    burger_active = false
+  } else {
+    inner.classList.add('header__inner--active')
+    burger.classList.add('burger--active')
+    document.body.style.overflowY = 'hidden'
+    burger_active = true
+  }
+})
